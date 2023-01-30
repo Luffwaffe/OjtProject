@@ -8,17 +8,15 @@
 class communicationModule : public IBaseModule
 {
 public:
-    communicationModule();
+    communicationModule();;
     communicationModule(QString name);;
-
-    ~communicationModule(){};
-
-    virtual void request(QString Module, int requestType, int data);;
+    ~communicationModule(){};;
 
 signals:
 
 public slots:
     virtual void onRequestReceive(QString sourceModule, QString targetModule, int requestType, int data);;
+    virtual void onResponseReceive(QString sourceModule, QString targetModule, int requestType, int data);
 };
 
 #endif // COMMUNICATIONMODULE_H

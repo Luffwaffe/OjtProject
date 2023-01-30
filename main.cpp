@@ -5,12 +5,14 @@
 int main(int argc, char *argv[])
 
 {
-    dataBaseModule firstObject("firstModule");
-    communicationModule secondObject("secondModule");
+    communicationModule comM("communicationModule");
+    dataBaseModule dataM("dataBaseModule");
 
-    firstObject.conectToSendRequest(&secondObject);
+    comM.connect(&dataM);
+    dataM.connect(&comM);
 
-    firstObject.request("second",0,99);
+    comM.start();
+    dataM.start();
 
     QCoreApplication a(argc, argv);
 

@@ -1,4 +1,5 @@
 #include "databasemodule.h"
+#include <unistd.h>
 
 dataBaseModule::dataBaseModule()
 {
@@ -9,30 +10,46 @@ dataBaseModule::dataBaseModule(QString name){
     this->moduleName =  name;
 }
 
-void dataBaseModule::request(QString Module, int requestType, int data){
-
-    std::cout<<"emit signal from dataBaseModule, data: "<<data<<std::endl;
-    emit requestSignal(moduleName, Module, requestType,data);
-
-}
+dataBaseModule::~dataBaseModule(){}
 
 void dataBaseModule::onRequestReceive(QString sourceModule, QString targetModule, int requestType, int data){
 
-    if(targetModule == "dataBaseModule"){
+    if(targetModule == moduleName){
         switch (requestType) {
         case 0:{
-            std::cout<<"request from: "<< sourceModule.data()<<", request type = "<<requestType<<", data: "<<data<<std::endl;
+            qDebug()<<moduleName+" receive request from: "+sourceModule+", request type:"<<requestType<<", data: "<<data;
             break;
         }
         case 1:{
-            std::cout<<"request from: "<< sourceModule.data()<<", request type = "<<requestType<<", data: "<<data<<std::endl;
+            qDebug()<<moduleName+" receive request from: "+sourceModule+", request type:"<<requestType<<", data: "<<data;
             break;
         }
         default: break;
 
         }
     }
-    else{
-
+    else if(targetModule == "all"){
+        qDebug()<<moduleName+" receive receive from: "<<sourceModule<<", request type:"<<requestType<<", data: "<<data;
     }
 }
+
+void dataBaseModule::onResponseReceive(QString sourceModule, QString targetModule, int requestType, int data){
+    if(targetModule == moduleName){
+            switch (requestType) {
+            case 0:{
+                qDebug()<<moduleName+" receive response from: "<<sourceModule<<", request type:"<<requestType<<", data: "<<data;
+                break;
+            }
+            case 1:{
+                qDebug()<<moduleName+" receive response from: "<< sourceModule<<", request type:"<<requestType<<", data: "<<data;
+                break;
+            }
+            default: break;
+
+            }
+        }
+        else if(targetModule == "all"){
+            qDebug()<<moduleName+" receive response from: "<<sourceModule<<", request type:"<<requestType<<", data: "<<data;
+        }
+}
+

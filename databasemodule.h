@@ -10,13 +10,15 @@ class dataBaseModule : public IBaseModule
 public:
     dataBaseModule();;
     dataBaseModule(QString name);;
-    ~dataBaseModule(){};
-    virtual void request(QString Module, int requestType, int data);;
+    ~dataBaseModule();;
+
+private:
 
 signals:
 
 public slots:
     virtual void onRequestReceive(QString sourceModule, QString targetModule, int requestType, int data);;
+    virtual void onResponseReceive(QString sourceModule, QString targetModule, int requestType, int data);
 };
 
 #endif // DATABASEMODULE_H
